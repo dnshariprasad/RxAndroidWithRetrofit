@@ -23,10 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         Retrofit ipApiRetrofit = new Retrofit.Builder()
                 .baseUrl("http://ip-api.com")
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+
         IpApiService ipApiService = ipApiRetrofit.create(IpApiService.class);
 
         ipApiService.getLocationInfo()
