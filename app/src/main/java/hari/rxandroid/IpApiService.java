@@ -9,5 +9,5 @@ import rx.Observable;
  */
 public interface IpApiService {
     @GET("/json")
-    Observable<String> getLocationInfor();
+    Observable<String> getLocationInfo();
 }

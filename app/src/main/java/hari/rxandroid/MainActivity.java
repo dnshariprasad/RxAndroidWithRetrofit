@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,14 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
         Retrofit ipApiRetrofit = new Retrofit.Builder()
                 .baseUrl("http://ip-api.com")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         IpApiService ipApiService = ipApiRetrofit.create(IpApiService.class);
 
-        ipApiService.getLocationInfor()
+        ipApiService.getLocationInfo()
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
